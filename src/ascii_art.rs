@@ -1,4 +1,5 @@
 use colored::{Color, Colorize};
+use std::env;
 
 pub struct AsciiArt<'a> {
     content: Box<dyn 'a + Iterator<Item = &'a str>>,
@@ -223,7 +224,10 @@ fn color_token(s: &str) -> ParseResult<Token> {
     let (s, _) = token(s, succeed_when(|c| c == '{'))?;
     let (s, color_index) = token(s, |c| c.to_digit(10))?;
     let (s, _) = token(s, succeed_when(|c| c == '}'))?;
-    Some((s, Token::Color(color_index)))
+    match env::var("COLORTERM") {
+        Ok(_val) => Some((s, Token::Color(color_index+10))),
+        Err(_e) => Some((s, Token::Color(color_index)))
+    }
 }
 
 /// Parses a space.
