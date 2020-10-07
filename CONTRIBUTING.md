@@ -57,9 +57,9 @@ Adding support for a new Language requires adding a new entry in the `define_lan
 
 **Example**:
 
-`{ CSharp, "csharp.ascii", "C#", vec![Color::Blue, Color::Magenta], "c#" }`
+`{ CSharp, "csharp.ascii", "C#", vec![Color::Blue, Color::Magenta], vec![Color::TrueColor{ r:0, g:0, b:255 }, Color::TrueColor{ r:255, g:0, b:255 }], {"c#" }`
 
-The first item `CSharp` corresponds to the name of the language as defined in tokei. The second item `csharp.ascii` is the name of the file containing the ascii logo, this file has to be placed in the _./resources_ folder (more info below). The third item `C#` is the display name. Then we have the colors `vec![Color::Blue, Color::Magenta]` used to customize the look of the ascii logo when displayed to the screen. The last item `c#` is required only if the Enum name  `CSharp` doesn't match the display name `C#`.
+The first item `CSharp` corresponds to the name of the language as defined in tokei. The second item `csharp.ascii` is the name of the file containing the ascii logo, this file has to be placed in the _./resources_ folder (more info below). The third item `C#` is the display name. Then we have the standard ASCII colors `vec![Color::Blue, Color::Magenta]` used to customize the look of the ascii logo when displayed to the screen. Then we have truecolor values for terminals that support truecolor. The last item `c#` is required only if the Enum name  `CSharp` doesn't match the display name `C#`.
 
 #### Ascii logo
 
@@ -88,6 +88,9 @@ The first item `CSharp` corresponds to the name of the language as defined in to
 Remarks:
  - Your ascii logo's dimensions must fall below `25*45` (height\*width). The CI will fail otherwise.
  - You can use `{N}` to color the ascii which will utilize the vec! of colors defined in `define_language!`
+ - `{0}` is also used to color the field names in the output
+ - When using truecolors, make sure to provide the same number of elements in both basic and truecolor ```vec!```
+ - When not using truecolors, specify the empty ```vec![]``` for an empty vector
  - Make sure to trim any unnecessary trailing whitespaces
  - See example here [Ascii Art From Image File Using Python Image Library](https://github.com/o2sh/onefetch/wiki/ASCII-Art-From-Image-Using-Python-Image-Library)
 

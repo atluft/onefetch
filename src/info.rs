@@ -10,7 +10,6 @@ use {
     image::DynamicImage,
     std::{ffi::OsStr, fmt::Write, fs},
     tokio::process::Command,
-    std::env,
 };
 
 type Result<T> = std::result::Result<T, crate::Error>;
@@ -46,12 +45,7 @@ pub struct Info {
 impl std::fmt::Display for Info {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         let mut buf = String::new();
-        let mut color_offset = 0;
-        match env::var("COLORTERM") { 
-            Ok(val) => if val.to_lowercase() == "truecolor" { color_offset = 10 },
-            Err(_e) => {},
-            };
-        let color = match self.colors().get(color_offset) {
+        let color = match self.colors().get(0) {
             Some(&c) => c,
             None => Color::White,
         };
